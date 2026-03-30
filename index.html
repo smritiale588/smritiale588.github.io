@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Smriti Ale Magar · BLACKPINK UI/UX Designer</title>
+    <title>Smriti Ale Magar · UI/UX Designer & Mentor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,133 +14,140 @@
         }
 
         :root {
-            /* BLACKPINK Theme - 핑크 & 블랙 */
-            --bg-primary: #0A0A0A;
-            --bg-secondary: #111111;
-            --bg-card: #1A1A1A;
-            --bg-soft: #1F1F1F;
-            --text-primary: #FFFFFF;
-            --text-secondary: #E0E0E0;
-            --text-muted: #A0A0A0;
-            --pink-primary: #FF3B7F;
-            --pink-dark: #E62E6B;
-            --pink-soft: #FF6B9D;
-            --pink-glow: rgba(255, 59, 127, 0.25);
-            --black: #000000;
-            --border: #2A2A2A;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
-            --shadow-lg: 0 8px 24px rgba(0,0,0,0.5);
-            --shadow-hover: 0 20px 35px -10px rgba(255, 59, 127, 0.3);
-            --radius-sm: 8px;
-            --radius-md: 14px;
-            --radius-lg: 20px;
-            --radius-xl: 28px;
-            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --bg-deep: #030507;
+            --bg-surface: #0B0E12;
+            --bg-elevated: #11161D;
+            --bg-card: #080C11;
+            --gold-primary: #D4AF37;
+            --gold-deep: #B28B2E;
+            --gold-soft: #E9D37E;
+            --gold-glow: rgba(212, 175, 55, 0.2);
+            --text-white: #FFFFFF;
+            --text-light: #EDF2F9;
+            --text-muted: #8F9BB3;
+            --shadow-gold: 0 20px 35px -12px rgba(212, 175, 55, 0.2);
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 32px;
+            --transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            background-color: var(--bg-deep);
+            color: var(--text-light);
             line-height: 1.5;
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
-        /* Animated Background - Blackpink vibe */
-        .bg-animation {
+        /* Canvas background for dynamic particles */
+        #canvas-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            background: linear-gradient(135deg, #0A0A0A 0%, #1A0A12 50%, #0A0A0A 100%);
-        }
-        .bg-animation::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background: radial-gradient(circle, rgba(255,59,127,0.08) 0%, transparent 70%);
-            animation: rotate 30s linear infinite;
-        }
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Floating hearts in Blackpink style */
-        .floating-hearts {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            z-index: -2;
             pointer-events: none;
-            z-index: 0;
         }
-        .heart {
-            position: absolute;
-            font-size: 14px;
-            animation: floatUp 8s linear infinite;
-            opacity: 0.3;
+
+        /* Animated orbs (enhanced) */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            z-index: -1;
+            animation: floatOrb 20s infinite alternate ease-in-out;
         }
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.4; }
-            80% { opacity: 0.4; }
-            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        .orb-1 {
+            width: 70vw;
+            height: 70vw;
+            background: radial-gradient(circle, rgba(212,175,55,0.2), transparent);
+            top: -30%;
+            left: -20%;
+            animation-duration: 25s;
+        }
+        .orb-2 {
+            width: 80vw;
+            height: 80vw;
+            background: radial-gradient(circle, rgba(212,175,55,0.12), transparent);
+            bottom: -40%;
+            right: -20%;
+            animation-duration: 30s;
+            animation-direction: alternate-reverse;
+        }
+        .orb-3 {
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(212,175,55,0.1), transparent);
+            top: 50%;
+            left: 60%;
+            animation-duration: 28s;
+            animation-delay: -5s;
+        }
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            100% { transform: translate(6%, 8%) scale(1.12); opacity: 0.5; }
+        }
+
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.02;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E");
+            z-index: -1;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 0 32px;
+            padding: 0 40px;
             position: relative;
             z-index: 2;
         }
 
-        /* Header - Blackpink style */
+        /* Sticky glass header with animation */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 28px 0;
-            border-bottom: 2px solid var(--pink-primary);
-            margin-bottom: 72px;
-            flex-wrap: wrap;
-            gap: 20px;
+            padding: 10px 28px;
+            margin: 24px 0 56px;
+            background: rgba(8, 12, 18, 0.7);
+            backdrop-filter: blur(16px);
+            border-radius: 80px;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            transition: all 0.3s ease;
         }
-
+        .header:hover {
+            border-color: rgba(212,175,55,0.5);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.3);
+        }
         .logo {
             font-size: 22px;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--pink-primary), var(--pink-soft));
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-soft));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -0.5px;
         }
-        .logo i {
-            background: none;
-            color: var(--pink-primary);
-            margin-right: 6px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 36px;
-            align-items: center;
-        }
+        .logo i { color: var(--gold-primary); margin-right: 8px; }
+        .nav-links { display: flex; gap: 42px; }
         .nav-links a {
             text-decoration: none;
-            color: var(--text-secondary);
-            font-size: 14px;
             font-weight: 600;
+            font-size: 14px;
+            color: var(--text-muted);
             transition: var(--transition);
             position: relative;
         }
@@ -151,345 +158,374 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--pink-primary);
+            background: var(--gold-primary);
             transition: width 0.3s;
         }
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        .nav-links a:hover {
-            color: var(--pink-primary);
-        }
+        .nav-links a:hover { color: var(--gold-primary); }
+        .nav-links a:hover::after { width: 100%; }
 
-        /* Hero Section */
+        /* Hero */
         .hero {
             display: grid;
-            grid-template-columns: 1fr 0.7fr;
+            grid-template-columns: 1fr 0.65fr;
             gap: 60px;
             align-items: center;
-            margin-bottom: 96px;
+            margin-bottom: 100px;
         }
-
         .hero-badge {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(212,175,55,0.12);
+            border: 1px solid rgba(212,175,55,0.35);
+            padding: 6px 18px;
+            border-radius: 40px;
             font-size: 13px;
             font-weight: 600;
-            color: var(--pink-primary);
-            background: rgba(255, 59, 127, 0.15);
-            padding: 6px 14px;
-            border-radius: 40px;
-            margin-bottom: 24px;
-            letter-spacing: 0.5px;
-            border: 1px solid rgba(255,59,127,0.3);
+            color: var(--gold-primary);
+            margin-bottom: 28px;
+            backdrop-filter: blur(4px);
+            animation: pulseGlow 3s infinite;
         }
-
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(212,175,55,0.2); border-color: rgba(212,175,55,0.35); }
+            50% { box-shadow: 0 0 0 6px rgba(212,175,55,0.1); border-color: rgba(212,175,55,0.6); }
+            100% { box-shadow: 0 0 0 0 rgba(212,175,55,0); border-color: rgba(212,175,55,0.35); }
+        }
         .hero h1 {
-            font-size: clamp(44px, 6vw, 68px);
+            font-size: clamp(44px, 6vw, 74px);
             font-weight: 800;
-            letter-spacing: -0.03em;
-            line-height: 1.15;
-            margin-bottom: 24px;
-            color: var(--text-primary);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 28px;
+            color: var(--text-white);
         }
-
         .hero-highlight {
-            background: linear-gradient(135deg, var(--pink-primary), var(--pink-soft));
+            background: linear-gradient(125deg, var(--gold-primary), #F5E199);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            display: inline-block;
         }
-
         .hero-desc {
             font-size: 16px;
-            color: var(--text-secondary);
-            line-height: 1.65;
-            margin-bottom: 36px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 42px;
             max-width: 90%;
         }
-
-        .btn-group {
-            display: flex;
-            gap: 18px;
-            flex-wrap: wrap;
-        }
-
+        .btn-group { display: flex; gap: 20px; flex-wrap: wrap; }
         .btn-primary {
-            background: linear-gradient(135deg, var(--pink-primary), var(--pink-dark));
-            color: white;
+            background: linear-gradient(105deg, var(--gold-primary), var(--gold-deep));
             border: none;
-            padding: 12px 30px;
-            border-radius: 40px;
-            font-weight: 600;
+            padding: 14px 36px;
+            border-radius: 44px;
+            font-weight: 700;
             font-size: 14px;
+            color: #030507;
             cursor: pointer;
             transition: var(--transition);
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px var(--pink-glow);
+            gap: 10px;
+            box-shadow: 0 6px 14px rgba(212,175,55,0.3);
+            position: relative;
+            overflow: hidden;
         }
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px var(--pink-glow);
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
         }
-
+        .btn-primary:hover::after {
+            left: 100%;
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(212,175,55,0.4); filter: brightness(1.02); }
         .btn-outline {
             background: transparent;
-            border: 1.5px solid var(--pink-primary);
-            padding: 12px 30px;
-            border-radius: 40px;
+            border: 1.5px solid var(--gold-primary);
+            padding: 14px 36px;
+            border-radius: 44px;
             font-weight: 600;
             font-size: 14px;
-            cursor: pointer;
+            color: var(--text-light);
             transition: var(--transition);
-            color: var(--text-primary);
+            cursor: pointer;
         }
-        .btn-outline:hover {
-            border-color: var(--pink-soft);
-            background: rgba(255, 59, 127, 0.1);
-            transform: translateY(-2px);
-            color: var(--pink-soft);
+        .btn-outline:hover { background: rgba(212,175,55,0.1); border-color: var(--gold-soft); transform: translateY(-2px); color: var(--gold-soft); }
+        .profile-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
         }
-
         .profile-image {
             width: 100%;
-            max-width: 340px;
+            max-width: 360px;
             aspect-ratio: 1/1;
             border-radius: 50%;
             object-fit: cover;
-            box-shadow: 0 0 0 4px var(--pink-primary), 0 20px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 40px -12px black, 0 0 0 3px rgba(212,175,55,0.5);
             transition: var(--transition);
-            border: 2px solid transparent;
+            animation: floatProfile 5s infinite ease-in-out;
         }
-        .profile-image:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 0 6px var(--pink-soft), 0 25px 50px rgba(255,59,127,0.3);
+        @keyframes floatProfile {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+        .profile-image:hover { transform: scale(1.02) translateY(-4px); box-shadow: 0 30px 50px -15px rgba(212,175,55,0.4), 0 0 0 5px rgba(212,175,55,0.6); }
+        .image-hint {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.6);
+            color: var(--gold-primary);
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .profile-wrapper:hover .image-hint {
+            opacity: 1;
         }
 
-        /* Stats Grid - Blackpink */
+        /* Stats with hover scale */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4,1fr);
             gap: 1px;
-            background: var(--border);
-            margin: 80px 0 96px;
-            border-radius: var(--radius-md);
+            background: #262E38;
+            border-radius: var(--radius-lg);
             overflow: hidden;
+            margin: 60px 0 96px;
         }
         .stat-card {
             background: var(--bg-card);
-            padding: 32px 24px;
+            padding: 38px 20px;
             text-align: center;
             transition: var(--transition);
         }
-        .stat-card:hover {
-            background: var(--bg-soft);
-            transform: translateY(-2px);
-        }
+        .stat-card:hover { background: #121920; transform: translateY(-6px); }
         .stat-number {
-            font-size: 38px;
+            font-size: 44px;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--pink-primary), var(--pink-soft));
+            background: linear-gradient(135deg, var(--gold-primary), #F3D572);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
-        .stat-label {
-            font-size: 13px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
+        .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
 
-        /* Skills Section */
-        .skills-section {
-            margin: 80px 0;
-        }
+        /* Skills & Tools Sections */
+        .skills-section, .tools-section { margin: 88px 0; }
         .section-title {
-            font-size: 26px;
-            font-weight: 700;
-            margin-bottom: 40px;
-            letter-spacing: -0.3px;
-            color: var(--text-primary);
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 48px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 14px;
+            border-left: 5px solid var(--gold-primary);
+            padding-left: 24px;
         }
-        .section-title i {
-            color: var(--pink-primary);
-            font-size: 24px;
-        }
-        .skills-grid {
+        .section-title i { color: var(--gold-primary); font-size: 28px; }
+        .skills-grid, .tools-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 14px;
         }
-        .skill-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 10px 24px;
-            border-radius: 40px;
+        .skill-item, .tool-item {
+            background: rgba(20, 25, 35, 0.7);
+            backdrop-filter: blur(4px);
+            border: 1px solid #2A313C;
+            padding: 10px 28px;
+            border-radius: 60px;
             font-size: 14px;
             font-weight: 500;
-            color: var(--text-secondary);
             transition: var(--transition);
             cursor: default;
         }
-        .skill-item:hover {
-            border-color: var(--pink-primary);
-            color: var(--pink-primary);
-            transform: translateY(-2px);
-            background: rgba(255, 59, 127, 0.1);
-        }
+        .skill-item:hover, .tool-item:hover { border-color: var(--gold-primary); color: var(--gold-primary); transform: translateY(-3px); background: rgba(212,175,55,0.08); box-shadow: 0 6px 14px rgba(212,175,55,0.15); }
 
-        /* Blackpink Quote Section */
-        .blackpink-quote {
-            background: linear-gradient(135deg, #1A0A12, #0A0A0A);
-            border-radius: var(--radius-xl);
-            padding: 56px 48px;
+        /* Philosophy quote */
+        .philosophy {
+            background: linear-gradient(125deg, #0B1017, #06090E);
+            border-radius: var(--radius-lg);
+            padding: 64px 48px;
             margin: 80px 0;
             text-align: center;
+            border: 1px solid rgba(212,175,55,0.3);
+            box-shadow: var(--shadow-gold);
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(255,59,127,0.3);
+            transition: all 0.4s ease;
         }
-        .blackpink-quote::before {
-            content: 'BLACKPINK';
+        .philosophy::before {
+            content: '';
             position: absolute;
-            bottom: 10px;
-            right: 20px;
-            font-size: 60px;
-            opacity: 0.05;
-            font-weight: 800;
-            letter-spacing: 5px;
-            pointer-events: none;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.08), transparent);
+            animation: rotateGlow 20s linear infinite;
         }
-        .blackpink-quote i {
-            font-size: 36px;
-            color: var(--pink-primary);
-            margin-bottom: 20px;
-            display: inline-block;
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        .blackpink-quote p {
-            font-size: 22px;
-            font-weight: 500;
-            color: white;
-            line-height: 1.4;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        .blackpink-quote span {
-            display: block;
-            margin-top: 24px;
-            font-size: 14px;
-            color: var(--pink-soft);
-            font-weight: 500;
-        }
+        .philosophy i { font-size: 44px; color: var(--gold-primary); margin-bottom: 24px; display: inline-block; position: relative; z-index: 1; }
+        .philosophy p { font-size: 26px; font-weight: 500; line-height: 1.4; max-width: 800px; margin: 0 auto; color: #F5F9FF; position: relative; z-index: 1; }
+        .philosophy span { display: block; margin-top: 28px; color: var(--gold-soft); letter-spacing: 1px; font-weight: 500; position: relative; z-index: 1; }
 
-        /* Timeline */
-        .timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            background: var(--border);
+        /* Featured Work */
+        .featured-work { margin: 100px 0; }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .project-card {
+            background: var(--bg-elevated);
             border-radius: var(--radius-md);
             overflow: hidden;
-        }
-        .timeline-item {
-            background: var(--bg-card);
-            padding: 28px 32px;
+            border: 1px solid #2A2F38;
             transition: var(--transition);
         }
-        .timeline-item:hover {
-            background: var(--bg-soft);
-            padding-left: 42px;
+        .project-card:hover { transform: translateY(-10px); border-color: var(--gold-primary); box-shadow: 0 25px 40px -12px rgba(0,0,0,0.6); }
+        .project-img {
+            height: 210px;
+            background: linear-gradient(145deg, #1C232C, #12171F);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 52px;
+            color: var(--gold-primary);
+            transition: transform 0.5s ease;
         }
-        .timeline-year {
+        .project-card:hover .project-img {
+            transform: scale(1.02);
+        }
+        .project-info { padding: 24px; }
+        .project-info h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .project-info p { font-size: 14px; color: var(--text-muted); margin-bottom: 18px; }
+        .project-tag {
+            display: inline-block;
+            font-size: 12px;
+            background: rgba(212,175,55,0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: var(--gold-primary);
+        }
+
+        /* Experience & Education split */
+        .split-journey {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 80px 0;
+        }
+        .journey-block {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid #232A33;
+            transition: var(--transition);
+        }
+        .journey-block:hover { border-color: rgba(212,175,55,0.5); box-shadow: var(--shadow-gold); transform: translateY(-5px); }
+        .block-header {
+            padding: 24px 28px;
+            background: rgba(212,175,55,0.05);
+            border-bottom: 1px solid #2A323E;
+        }
+        .block-header h3 {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .block-header h3 i { color: var(--gold-primary); font-size: 24px; }
+        .timeline-list { padding: 8px 0; }
+        .timeline-list-item {
+            padding: 24px 28px;
+            border-bottom: 1px solid #1F262F;
+            transition: var(--transition);
+        }
+        .timeline-list-item:last-child { border-bottom: none; }
+        .timeline-list-item:hover { background: #0F151E; padding-left: 34px; }
+        .item-year {
             font-size: 12px;
             font-weight: 700;
-            color: var(--pink-primary);
-            letter-spacing: 0.5px;
+            color: var(--gold-primary);
+            letter-spacing: 1px;
             margin-bottom: 8px;
             text-transform: uppercase;
         }
-        .timeline-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-        .timeline-sub {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 10px;
-        }
-        .timeline-desc {
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.55;
-        }
+        .item-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .item-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+        .item-desc { font-size: 13px; color: #B0B8CC; line-height: 1.55; }
 
-        /* Contact Section */
+        /* Contact Section Premium */
         .contact-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
-            background: var(--bg-secondary);
+            background: #0A0F16;
             border-radius: var(--radius-xl);
             padding: 56px 52px;
-            margin: 96px 0;
-            border: 1px solid var(--border);
+            margin: 100px 0;
+            border: 1px solid rgba(212,175,55,0.2);
             transition: var(--transition);
         }
-        .contact-section:hover {
-            box-shadow: var(--shadow-lg);
-            border-color: rgba(255,59,127,0.3);
-        }
+        .contact-section:hover { border-color: rgba(212,175,55,0.5); box-shadow: 0 30px 45px -20px rgba(212,175,55,0.2); }
         .contact-info h3 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, var(--pink-primary), var(--pink-soft));
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-soft));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-        }
-        .contact-info > p {
-            color: var(--text-secondary);
-            font-size: 15px;
-            margin-bottom: 32px;
+            margin-bottom: 18px;
         }
         .contact-detail {
             display: flex;
             align-items: center;
-            gap: 14px;
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border);
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid #232A33;
+            transition: transform 0.2s;
         }
-        .contact-detail i {
-            width: 28px;
-            font-size: 18px;
-            color: var(--pink-primary);
+        .contact-detail:hover {
+            transform: translateX(5px);
         }
+        .contact-detail i { width: 28px; color: var(--gold-primary); font-size: 18px; }
         .contact-detail a {
             text-decoration: none;
-            color: var(--text-secondary);
+            color: var(--text-light);
             font-size: 14px;
             transition: var(--transition);
         }
-        .contact-detail a:hover {
-            color: var(--pink-primary);
-        }
+        .contact-detail a:hover { color: var(--gold-primary); }
         .social-links {
             display: flex;
-            gap: 18px;
-            margin-top: 36px;
+            gap: 20px;
+            margin-top: 40px;
             flex-wrap: wrap;
         }
         .social-link {
-            width: 46px;
-            height: 46px;
-            background: var(--bg-card);
+            width: 48px;
+            height: 48px;
+            background: #181F28;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -497,210 +533,229 @@
             font-size: 20px;
             transition: var(--transition);
             text-decoration: none;
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
+            color: var(--text-muted);
+            border: 1px solid #2A323E;
         }
-        .social-link:hover {
-            background: var(--pink-primary);
-            color: white;
-            border-color: var(--pink-primary);
-            transform: translateY(-4px) scale(1.05);
-        }
+        .social-link:hover { background: var(--gold-primary); color: #030507; transform: translateY(-5px) rotate(8deg); border-color: var(--gold-primary); }
         .contact-card {
-            background: linear-gradient(145deg, var(--bg-card), #0F0F0F);
+            background: linear-gradient(145deg, #11171F, #0C1119);
             border-radius: var(--radius-md);
-            padding: 38px 32px;
+            padding: 44px 32px;
             text-align: center;
-            border: 1px solid var(--border);
+            border: 1px solid #232B35;
             transition: var(--transition);
         }
-        .contact-card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-hover);
-            border-color: var(--pink-primary);
-        }
-        .contact-card i {
-            font-size: 44px;
-            color: var(--pink-primary);
-            margin-bottom: 20px;
-        }
-        .contact-card h4 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        .contact-card p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 24px;
-        }
-        .designer-quote {
-            font-size: 13px;
-            color: var(--text-muted);
-            font-style: italic;
-            padding: 16px 0;
-            border-top: 1px solid var(--border);
-            margin-top: 20px;
-        }
+        .contact-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-gold); border-color: rgba(212,175,55,0.5); }
+        .contact-card i { font-size: 48px; color: var(--gold-primary); margin-bottom: 24px; }
+        .contact-card h4 { font-size: 22px; margin-bottom: 12px; }
+        .designer-quote { margin-top: 20px; padding-top: 20px; border-top: 1px solid #2A323E; font-size: 13px; color: var(--text-muted); font-style: italic; }
         footer {
             text-align: center;
             padding: 48px 0 40px;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid #1F262F;
             color: var(--text-muted);
             font-size: 13px;
         }
-        footer i {
-            color: var(--pink-primary);
-        }
+        footer i { color: var(--gold-primary); }
 
-        /* Responsive */
+        /* Reveal animations */
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .reveal.revealed { opacity: 1; transform: translateY(0); }
+
         @media (max-width: 1000px) {
-            .container { padding: 0 28px; }
-            .hero { gap: 48px; }
+            .container { padding: 0 30px; }
+            .hero { gap: 40px; }
+            .split-journey { grid-template-columns: 1fr; gap: 32px; }
         }
-
-        @media (max-width: 900px) {
-            .container { padding: 0 24px; }
-            .hero { grid-template-columns: 1fr; text-align: center; gap: 40px; margin-bottom: 64px; }
+        @media (max-width: 860px) {
+            .hero { grid-template-columns: 1fr; text-align: center; gap: 48px; }
             .hero-desc { max-width: 100%; }
             .btn-group { justify-content: center; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1px; margin: 60px 0; }
-            .contact-section { grid-template-columns: 1fr; padding: 36px 28px; margin: 64px 0; gap: 40px; }
-            .profile-image { max-width: 260px; margin: 0 auto; }
-            .header { flex-direction: column; text-align: center; margin-bottom: 48px; }
-            .nav-links { justify-content: center; }
-            .section-title { justify-content: center; }
-            .skills-grid { justify-content: center; }
-            .blackpink-quote { padding: 40px 28px; }
-            .blackpink-quote p { font-size: 18px; }
+            .stats-grid { grid-template-columns: repeat(2,1fr); }
+            .contact-section { grid-template-columns: 1fr; padding: 40px 28px; }
+            .section-title { justify-content: center; border-left: none; padding-left: 0; text-align: center; }
+            .skills-grid, .tools-grid { justify-content: center; }
+            .philosophy p { font-size: 20px; }
         }
-
         @media (max-width: 600px) {
-            .container { padding: 0 20px; }
             .stats-grid { grid-template-columns: 1fr; }
-            .timeline-item { padding: 20px; }
-            .timeline-item:hover { padding-left: 24px; }
-            .contact-section { padding: 28px 20px; }
-            .stat-card { padding: 24px 16px; }
-            .blackpink-quote { padding: 32px 20px; margin: 60px 0; }
+            .header { flex-direction: column; gap: 14px; top: 10px; }
+            .nav-links { gap: 28px; }
+            .block-header h3 { font-size: 20px; }
         }
     </style>
 </head>
 <body>
-<div class="bg-animation"></div>
-<div class="floating-hearts" id="floatingHearts"></div>
+<canvas id="canvas-bg"></canvas>
+<div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+<div class="noise"></div>
 
 <div class="container">
-    <!-- Header -->
     <div class="header">
-        <div class="logo"><i class="fas fa-crown"></i> Smriti Ale Magar</div>
+        <div class="logo"><i class="fas fa-gem"></i> Smriti Ale Magar</div>
         <div class="nav-links">
             <a href="#">Home</a>
-            <a href="#experience">Experience</a>
-            <a href="#skills">Skills</a>
-            <a href="#contact">Contact</a>
+            <a href="#work">Work</a>
+            <a href="#journey">Journey</a>
+            <a href="#contact">Connect</a>
         </div>
     </div>
 
-    <!-- Hero Section -->
     <div class="hero">
         <div>
-            <div class="hero-badge"><i class="fas fa-heart"></i> BLACKPINK · UI/UX Designer & Mentor</div>
-            <h1>Crafting <span class="hero-highlight">bold & beautiful</span><br>digital experiences.</h1>
+            <div class="hero-badge"><i class="fas fa-compass"></i> UI/UX Designer · Mentor · Photographer</div>
+            <h1>Crafting <span class="hero-highlight">simple, human-centered</span><br>digital experiences</h1>
             <div class="hero-desc">
-                I'm Smriti — a UI/UX designer with BLACKPINK energy: bold, confident, and unforgettable. 
-                Currently leading design mentorship at <strong style="color: var(--pink-primary);">CODE IT</strong>, I create user-centered interfaces 
-                that slay. Let's make something iconic together! 🖤💖
+                I'm Smriti — a UI/UX designer who turns complex ideas into clear, functional designs. 
+                Currently guiding future designers as <strong style="color: var(--gold-primary);">Intern Supervisor at CODE IT</strong>, I believe good design is about usability, clarity, and consistency. Let’s create something meaningful.
             </div>
             <div class="btn-group">
-                <button class="btn-primary" onclick="alert('BLACKPINK in your area! ✨ Let\'s create something iconic.')"><i class="fas fa-heart"></i> Start a project</button>
-                <button class="btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Let's talk</button>
+                <button class="btn-primary" onclick="alert('✨ Excited to collaborate — let’s bring your ideas to life!')"><i class="fas fa-feather-alt"></i> Start project</button>
+                <button class="btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Let’s connect</button>
             </div>
         </div>
-        <div style="text-align: center;">
-            <img class="profile-image" src="/image.jpg" alt="Smriti Ale Magar" onerror="this.src='https://placehold.co/400x400/FF3B7F/FFFFFF?text=Smriti'">
+        <div class="profile-wrapper">
+            <!-- Profile photo: place "smriti.png" in the same folder as this HTML file -->
+            <img class="profile-image" src="smriti.png" alt="Smriti Ale Magar">
+            <div class="image-hint"><i class="fas fa-camera"></i> smriti.png</div>
         </div>
     </div>
 
-    <!-- Stats -->
     <div class="stats-grid">
         <div class="stat-card"><div class="stat-number">2+</div><div class="stat-label">Years experience</div></div>
         <div class="stat-card"><div class="stat-number">18+</div><div class="stat-label">Projects delivered</div></div>
         <div class="stat-card"><div class="stat-number">12+</div><div class="stat-label">Mentored designers</div></div>
-        <div class="stat-card"><div class="stat-number">2025</div><div class="stat-label">CSIT graduate</div></div>
+        <div class="stat-card"><div class="stat-number">2025</div><div class="stat-label">CSIT Graduate</div></div>
     </div>
 
-    <!-- Skills Section -->
     <div id="skills" class="skills-section">
-        <h2 class="section-title"><i class="fas fa-crown"></i> My Killer Skillset</h2>
+        <h2 class="section-title"><i class="fas fa-crown"></i> Core expertise</h2>
         <div class="skills-grid">
-            <div class="skill-item">UI/UX Design</div>
-            <div class="skill-item">Wireframing</div>
-            <div class="skill-item">Prototyping</div>
-            <div class="skill-item">User Research</div>
-            <div class="skill-item">Design Systems</div>
-            <div class="skill-item">Figma</div>
-            <div class="skill-item">Adobe XD</div>
-            <div class="skill-item">Photoshop</div>
-            <div class="skill-item">UX Strategy</div>
-            <div class="skill-item">Mentorship</div>
-            <div class="skill-item">Responsive Design</div>
-            <div class="skill-item">Usability Testing</div>
+            <div class="skill-item">UI/UX Design</div><div class="skill-item">Wireframing</div><div class="skill-item">Prototyping</div>
+            <div class="skill-item">User Research</div><div class="skill-item">Design Systems</div><div class="skill-item">UX Strategy</div>
+            <div class="skill-item">Mentorship</div><div class="skill-item">Responsive Design</div><div class="skill-item">Usability Testing</div>
+            <div class="skill-item">Portrait Photography</div><div class="skill-item">Visual Storytelling</div>
         </div>
     </div>
 
-    <!-- BLACKPINK Quote Section -->
-    <div class="blackpink-quote">
-        <i class="fas fa-music"></i>
-        <p>"Design like BLACKPINK — bold, fearless, and impossible to ignore. In your area!"</p>
-        <span>— Smriti Ale Magar · UI/UX Designer</span>
+    <div class="tools-section">
+        <h2 class="section-title"><i class="fas fa-laptop-code"></i> Tools & software</h2>
+        <div class="tools-grid">
+            <div class="tool-item"><i class="fab fa-figma"></i> Figma</div>
+            <div class="tool-item"><i class="fas fa-pen-nib"></i> Adobe XD</div>
+            <div class="tool-item"><i class="fas fa-palette"></i> Adobe Photoshop</div>
+            <div class="tool-item"><i class="fas fa-vector-square"></i> Adobe Illustrator</div>
+            <div class="tool-item"><i class="fas fa-camera"></i> Lightroom</div>
+            <div class="tool-item"><i class="fas fa-chalkboard-user"></i> Miro</div>
+            <div class="tool-item"><i class="fas fa-chart-line"></i> Hotjar</div>
+            <div class="tool-item"><i class="fas fa-code"></i> Webflow</div>
+            <div class="tool-item"><i class="fas fa-mobile-alt"></i> ProtoPie</div>
+            <div class="tool-item"><i class="fas fa-database"></i> Notion</div>
+        </div>
     </div>
 
-    <!-- Experience Timeline -->
-    <div id="experience">
-        <h2 class="section-title"><i class="fas fa-briefcase"></i> Professional journey</h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-year">2026 — Present</div>
-                <div class="timeline-title">Intern Supervisor & Design Tutor</div>
-                <div class="timeline-sub">CODE IT · Dharan, Nepal</div>
-                <div class="timeline-desc">Leading and mentoring 12+ junior designers, reviewing UX deliverables, conducting design critiques, and ensuring consistency across all design projects.</div>
+    <div id="work" class="featured-work">
+        <h2 class="section-title"><i class="fas fa-star"></i> Featured work</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-img"><i class="fas fa-mobile-alt"></i></div>
+                <div class="project-info">
+                    <h3>Fintech Flow</h3>
+                    <p>Minimalist banking app with biometric onboarding & seamless UX — increased retention by 34%.</p>
+                    <span class="project-tag">UI/UX · Prototype</span>
+                </div>
             </div>
-            <div class="timeline-item">
-                <div class="timeline-year">2025 — Present</div>
-                <div class="timeline-title">UI/UX & Graphics Designer</div>
-                <div class="timeline-sub">CODE IT · Dharan, Nepal</div>
-                <div class="timeline-desc">End-to-end product design — user flows, high-fidelity prototypes, design systems, visual identity, and cross-functional collaboration with developers.</div>
+            <div class="project-card">
+                <div class="project-img"><i class="fas fa-chalkboard-user"></i></div>
+                <div class="project-info">
+                    <h3>Code It Mentorship Hub</h3>
+                    <p>Design learning platform for 50+ students — interactive modules & mentor dashboard.</p>
+                    <span class="project-tag">Design System · Mentorship</span>
+                </div>
             </div>
-            <div class="timeline-item">
-                <div class="timeline-year">2025</div>
-                <div class="timeline-title">UI/UX Designer Intern</div>
-                <div class="timeline-sub">CODE IT · Dharan, Nepal</div>
-                <div class="timeline-desc">Wireframing, user research, prototyping, and contributing to real-world client projects with measurable impact.</div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-year">2020 — 2025</div>
-                <div class="timeline-title">BSc.CSIT (Bachelor's)</div>
-                <div class="timeline-sub">Institute of Science and Technology (IOST), Tribhuvan University</div>
-                <div class="timeline-desc">Specialization in Human-Computer Interaction, Web Technologies, and Design Thinking. Graduated with academic excellence.</div>
+            <div class="project-card">
+                <div class="project-img"><i class="fas fa-camera-retro"></i></div>
+                <div class="project-info">
+                    <h3>Portrait Stories</h3>
+                    <p>Creative portrait photography series blending mood, light, and storytelling — exhibited locally.</p>
+                    <span class="project-tag">Photography · Visual Narrative</span>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Contact Section -->
+    <div class="philosophy">
+        <i class="fas fa-quote-left"></i>
+        <p>“Good design is not just about how things look, but how they work. I focus on usability, clarity, and consistency in every project.”</p>
+        <span>— Smriti Ale Magar · Design Philosophy</span>
+    </div>
+
+    <div id="journey" class="split-journey">
+        <div class="journey-block">
+            <div class="block-header">
+                <h3><i class="fas fa-briefcase"></i> Professional experience</h3>
+            </div>
+            <div class="timeline-list">
+                <div class="timeline-list-item">
+                    <div class="item-year">Jan 2026 — Present</div>
+                    <div class="item-title">Intern Supervisor & Design Tutor</div>
+                    <div class="item-sub">CODE IT · Dharan, Nepal</div>
+                    <div class="item-desc">Guiding and mentoring upcoming designers, reviewing UX deliverables, leading design critiques, and ensuring user-centered, consistent design practices.</div>
+                </div>
+                <div class="timeline-list-item">
+                    <div class="item-year">Nov 2025 — Present</div>
+                    <div class="item-title">UI/UX & Graphics Designer</div>
+                    <div class="item-sub">CODE IT · Dharan, Nepal</div>
+                    <div class="item-desc">End-to-end product design, wireframing, high-fidelity prototypes, design systems, and cross-functional collaboration with developers.</div>
+                </div>
+                <div class="timeline-list-item">
+                    <div class="item-year">Mar 2025 — May 2025</div>
+                    <div class="item-title">UI/UX Designer</div>
+                    <div class="item-sub">CODE IT · Dharan, Nepal</div>
+                    <div class="item-desc">Wireframing, user flows, prototyping, and contributing to real-world client projects with a focus on usability.</div>
+                </div>
+                <div class="timeline-list-item">
+                    <div class="item-year">Feb 2024 — Mar 2025</div>
+                    <div class="item-title">General Member</div>
+                    <div class="item-sub">CSIT Association of Nepal - Purwanchal</div>
+                    <div class="item-desc">Active involvement in tech events, workshops, and fostering collaboration among CSIT students and professionals.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="journey-block">
+            <div class="block-header">
+                <h3><i class="fas fa-graduation-cap"></i> Education & credentials</h3>
+            </div>
+            <div class="timeline-list">
+                <div class="timeline-list-item">
+                    <div class="item-year">2020 — 2025</div>
+                    <div class="item-title">BSc.CSIT (Bachelor's)</div>
+                    <div class="item-sub">Institute of Science and Technology (IOST), Tribhuvan University · Birendra Memorial College</div>
+                    <div class="item-desc">Specialization in Human-Computer Interaction, Design Thinking, and Web Technologies. Graduated with academic excellence.</div>
+                </div>
+                <div class="timeline-list-item">
+                    <div class="item-year">2020</div>
+                    <div class="item-title">+2, Computer Science</div>
+                    <div class="item-sub">Gokundeshwor Secondary School</div>
+                    <div class="item-desc">Higher secondary education with focus on computer science and foundational design thinking.</div>
+                </div>
+                <div class="timeline-list-item">
+                    <div class="item-year">2018</div>
+                    <div class="item-title">School Leaving Certificate (SLC)</div>
+                    <div class="item-sub">Motherland Secondary Boarding School</div>
+                    <div class="item-desc">Foundation in academics and early interest in visual arts and design.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="contact" class="contact-section">
         <div class="contact-info">
-            <h3>Let's slay together 💖</h3>
-            <p>Open for freelance projects, design mentorship, or UX collaborations. I'll respond within 24 hours.</p>
-            <div class="contact-detail">
-                <i class="fas fa-envelope"></i>
-                <a href="mailto:smritiale60@gmail.com">smritiale60@gmail.com</a>
-            </div>
-            <div class="contact-detail">
-                <i class="fab fa-linkedin"></i>
-                <a href="https://www.linkedin.com/in/smritialemagar/" target="_blank">linkedin.com/in/smritialemagar</a>
-            </div>
+            <h3>Let’s create together ✦</h3>
+            <p>Open for freelance projects, mentorship, UX collaborations, or just a creative chat. I'll respond within 24 hours.</p>
+            <div class="contact-detail"><i class="fas fa-envelope"></i><a href="mailto:smritiale60@gmail.com">magarsmriti729@gmail.com</a></div>
+
             <div class="social-links">
                 <a class="social-link" href="https://www.facebook.com/smriti.ale.magar.446626" target="_blank"><i class="fab fa-facebook-f"></i></a>
                 <a class="social-link" href="https://www.instagram.com/_smriti.magar_/" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -711,77 +766,104 @@
         </div>
         <div class="contact-card">
             <i class="fas fa-quote-right"></i>
-            <h4>Design philosophy</h4>
-            <p>“Great design is like BLACKPINK — bold, unforgettable, and leaves you wanting more.”</p>
-            <div class="designer-quote">
-                Let's turn complex ideas into elegant, functional realities. 🖤💖
-            </div>
-            <button class="btn-primary" style="width: 100%; justify-content: center; margin-top: 8px;" onclick="alert('BLACKPINK in your area! ✨ Thanks for reaching out.')"><i class="fas fa-heart"></i> Send a message</button>
+            <h4>Design with soul</h4>
+            <p>“Great design balances emotion and logic — it’s where clarity meets delight.”</p>
+            <div class="designer-quote">Let’s craft stories that resonate. ✨</div>
+            <button class="btn-primary" style="width:100%; justify-content:center; margin-top: 22px;" onclick="alert('Thanks for reaching out! I’ll get back to you within 24 hours.')"><i class="fas fa-heart"></i> Send message</button>
         </div>
     </div>
 
     <footer>
-        <p>© 2026 Smriti Ale Magar — <i class="fas fa-heart"></i> BLACKPINK UI/UX Designer & Mentor</p>
-        <p style="margin-top: 10px;">Crafted with passion, powered by BLACKPINK energy 🖤💖</p>
-    </footer>
+        <p>© 2026 Smriti Ale Magar 
 </div>
 
 <script>
-    // Floating hearts animation
-    function createHearts() {
-        const container = document.getElementById('floatingHearts');
-        const hearts = ['❤️', '💖', '💗', '💓', '🖤', '🌸', '✨'];
-        for (let i = 0; i < 35; i++) {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
-            heart.style.left = Math.random() * 100 + '%';
-            heart.style.fontSize = Math.random() * 18 + 12 + 'px';
-            heart.style.animationDuration = Math.random() * 10 + 6 + 's';
-            heart.style.animationDelay = Math.random() * 12 + 's';
-            heart.style.opacity = Math.random() * 0.3 + 0.1;
-            container.appendChild(heart);
+    // Canvas particle background
+    const canvas = document.getElementById('canvas-bg');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let particleCount = 120;
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    function createParticles() {
+        particles = [];
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2.5 + 0.8,
+                alpha: Math.random() * 0.4 + 0.1,
+                speedX: (Math.random() - 0.5) * 0.3,
+                speedY: (Math.random() - 0.5) * 0.2,
+                color: `rgba(212, 175, 55, ${Math.random() * 0.3 + 0.1})`
+            });
         }
     }
-    createHearts();
 
-    // Smooth scroll for navigation
+    function drawParticles() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            p.x += p.speedX;
+            p.y += p.speedY;
+            if (p.x < -10) p.x = canvas.width + 10;
+            if (p.x > canvas.width + 10) p.x = -10;
+            if (p.y < -10) p.y = canvas.height + 10;
+            if (p.y > canvas.height + 10) p.y = -10;
+        }
+        requestAnimationFrame(drawParticles);
+    }
+
+    function initBackground() {
+        resizeCanvas();
+        createParticles();
+        drawParticles();
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            createParticles();
+        });
+    }
+
+    initBackground();
+
+    // Smooth scroll
     document.querySelectorAll('.nav-links a, .btn-outline').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
-            const hash = this.getAttribute('href');
-            if(hash && hash.startsWith('#')) {
+            let targetId = this.getAttribute('href');
+            if(targetId && targetId.startsWith('#')) {
                 e.preventDefault();
-                const target = document.querySelector(hash);
-                if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const el = document.querySelector(targetId);
+                if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     });
+    document.querySelectorAll('a[href="#work"], a[href="#journey"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if(target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
 
-    // Scroll reveal animation
-    const animatedElements = document.querySelectorAll('.stat-card, .timeline-item, .skill-item, .contact-card, .blackpink-quote');
+    // Reveal animation
+    const revealItems = document.querySelectorAll('.stat-card, .timeline-list-item, .skill-item, .tool-item, .contact-card, .philosophy, .project-card, .journey-block, .hero .hero-badge, .hero h1, .hero-desc, .profile-image');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if(entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
+            if(entry.isIntersecting) entry.target.classList.add('revealed');
         });
-    }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
-    
-    animatedElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        observer.observe(el);
-    });
-
-    // Profile image fallback
-    const profileImg = document.querySelector('.profile-image');
-    if(profileImg && profileImg.src && profileImg.src.includes('/image.jpg')) {
-        profileImg.onerror = function() { 
-            this.src = "https://placehold.co/400x400/FF3B7F/FFFFFF?text=Smriti";
-        };
-    }
+    }, { threshold: 0.15, rootMargin: "0px 0px -30px 0px" });
+    revealItems.forEach(el => { el.classList.add('reveal'); observer.observe(el); });
+    setTimeout(() => {
+        document.querySelectorAll('.hero .hero-badge, .hero h1, .hero-desc, .profile-image').forEach(el => el.classList.add('revealed'));
+    }, 100);
 </script>
 </body>
 </html>
