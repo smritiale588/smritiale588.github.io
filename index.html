@@ -4,40 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Smriti Ale Magar · Scrapbook Portfolio</title>
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=Indie+Flower&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Architects Daughter + clean sans for body -->
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Override/Extend Tailwind for hand-drawn scrapbook feel with Architects Daughter -->
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* custom utilities and hand-drawn effects that go beyond Tailwind */
+        @layer utilities {
+            .shadow-drawn {
+                box-shadow: 0 8px 16px -8px rgba(0,0,0,0.04), 0 2px 4px rgba(0,0,0,0.02);
+            }
+            .border-sketch {
+                border: 1px solid #E8E6E0;
+            }
+            .border-sketch-dark {
+                border: 1.8px solid #E0E0E0;
+            }
+            .tape-effect {
+                position: absolute;
+                top: -10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 70px;
+                height: 22px;
+                background: rgba(240, 235, 220, 0.8);
+                border-radius: 2px;
+                filter: blur(1.5px);
+                pointer-events: none;
+            }
+            .hero-highlight-underline {
+                border-bottom: 3px dashed #AAA;
+                display: inline-block;
+                line-height: 0.92;
+            }
+            .rotate-custom-1 { transform: rotate(-0.3deg); }
+            .rotate-custom-2 { transform: rotate(0.3deg); }
+            .rotate-custom-3 { transform: rotate(-0.2deg); }
+            .rotate-custom-4 { transform: rotate(0.2deg); }
+            .hover-lift:hover { transform: translateY(-2px) rotate(0deg); }
+            .transition-lift { transition: transform 0.2s ease, border-color 0.2s, background 0.2s; }
+            .nav-hover-effect::before {
+                content: "✎";
+                position: absolute;
+                left: -20px;
+                top: -3px;
+                font-size: 14px;
+                opacity: 0;
+                transition: opacity 0.2s;
+                color: #888;
+            }
+            .nav-link-item:hover::before { opacity: 0.8; }
+            .nav-link-item { position: relative; transition: transform 0.2s; }
+            .nav-link-item:hover { transform: translateX(4px); color: #000; }
+            .contact-icon-hover:hover { background: #E8E8E8; color: #000; transform: translateY(-4px) rotate(0deg); border-color: #999; }
+            .skill-tag-hover:hover { background: #EDE8E0; transform: translateY(-1px); }
+            .reveal-custom {
+                opacity: 0;
+                transform: translateY(20px) rotate(-0.5deg);
+                transition: opacity 0.6s ease, transform 0.6s ease;
+            }
+            .reveal-custom.revealed {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            .sticker-shape {
+                position: absolute;
+                font-family: 'Architects Daughter', 'Indie Flower', cursive;
+                font-size: 12px;
+                background: #F5F0E8;
+                padding: 4px 12px;
+                border-radius: 30px;
+                color: #8B7A6B;
+                transform: rotate(-4deg);
+                top: -12px;
+                right: 20px;
+                pointer-events: none;
+            }
         }
-
-        :root {
-            --paper: #FFFFFF;
-            --paper-warm: #FEFCF8;
-            --ink-black: #1A1A1A;
-            --ink-dark: #2C2C2C;
-            --ink-gray: #4A4A4A;
-            --sketch-accent: #8B8B8B;
-            --sketch-border: #D4D4D4;
-            --shadow-drawn: 0 8px 16px -8px rgba(0,0,0,0.04), 0 2px 4px rgba(0,0,0,0.02);
-            --pastel-blue: #E8EEF2;
-            --pastel-peach: #F5EDE4;
-            --pastel-lavender: #F0ECF5;
-        }
-
         body {
-            font-family: 'Indie Flower', 'Caveat', 'Inter', cursive;
-            background-color: var(--paper);
-            color: var(--ink-black);
+            font-family: 'Architects Daughter', 'Inter', cursive, sans-serif;
+            background-color: #FFFFFF;
+            color: #1A1A1A;
             line-height: 1.5;
             scroll-behavior: smooth;
-            overflow-x: hidden;
             position: relative;
         }
-
-        /* Hand-drawn paper grain texture */
+        /* Hand-drawn paper grain texture preserved */
         body::before {
             content: "";
             position: fixed;
@@ -50,729 +105,226 @@
             pointer-events: none;
             z-index: 0;
         }
+        .relative-z-container { position: relative; z-index: 2; }
+        .contact-card-custom, .scrap-card-custom { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+        .scrap-card-custom:hover { transform: translateY(-3px); box-shadow: 0 16px 28px -12px rgba(0, 0, 0, 0.08); border-color: #D4D0C8; }
+        .profile-img-custom { transition: all 0.3s ease; transform: rotate(-0.5deg); }
+        .profile-img-custom:hover { transform: scale(1.01) rotate(0.5deg); border-color: #999; filter: grayscale(0.05) contrast(1); }
+        html { scroll-behavior: smooth; }
 
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 40px;
-            position: relative;
-            z-index: 2;
+        /* override any default heading to use Architects Daughter */
+        h1, h2, h3, h4, .font-handwritten, .nav-link-item, .sticker-shape, button, .tag, .stats-number {
+            font-family: 'Architects Daughter', 'Inter', cursive;
         }
-
-        /* Scrapbook Grid Layout */
-        .scrapbook-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 60px;
+        /* ensure body text is legible mix */
+        p, li, .text-body {
+            font-family: 'Architects Daughter', 'Inter', cursive;
+            font-weight: 400;
         }
-
-        /* Sketchy header - scrapbook style */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 32px;
-            margin: 24px 0 40px;
-            background: rgba(255, 255, 255, 0.96);
-            border-radius: 80px;
-            border: 1.8px solid #E0E0E0;
-            box-shadow: var(--shadow-drawn);
-            position: sticky;
-            top: 20px;
-            z-index: 100;
-            transform: rotate(-0.3deg);
-            transition: all 0.2s ease;
-        }
-        .header:hover {
-            transform: rotate(0deg);
-            border-color: #B0B0B0;
-        }
-        .logo {
-            font-size: 26px;
-            font-weight: 600;
-            font-family: 'Indie Flower', cursive;
-            color: var(--ink-black);
-            letter-spacing: -0.3px;
-            border-bottom: 2px dashed #999;
-            padding-bottom: 2px;
-        }
-        .logo i { color: #777; margin-right: 8px; font-size: 22px; }
-        .nav-links { display: flex; gap: 44px; }
-        .nav-links a {
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 18px;
-            font-family: 'Indie Flower', cursive;
-            color: var(--ink-dark);
-            transition: all 0.2s;
-            position: relative;
-        }
-        .nav-links a::before {
-            content: "✎";
-            position: absolute;
-            left: -20px;
-            top: -3px;
-            font-size: 14px;
-            opacity: 0;
-            transition: opacity 0.2s;
-            color: #888;
-        }
-        .nav-links a:hover { color: #000; transform: translateX(4px); }
-        .nav-links a:hover::before { opacity: 0.8; }
-
-        /* Scrapbook Card Style */
-        .scrap-card {
-            background: #FFFFFF;
-            border: 1px solid #E8E6E0;
-            border-radius: 24px;
-            padding: 28px 30px;
-            box-shadow: var(--shadow-drawn);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-            position: relative;
-            margin-bottom: 30px;
-        }
-        .scrap-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 16px 28px -12px rgba(0, 0, 0, 0.08);
-            border-color: #D4D0C8;
-        }
-
-        /* Tape effect */
-        .tape {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 70px;
-            height: 22px;
-            background: rgba(240, 235, 220, 0.8);
-            border-radius: 2px;
-            filter: blur(1.5px);
-            pointer-events: none;
-        }
-
-        .sticker {
-            position: absolute;
-            font-family: 'Indie Flower', cursive;
-            font-size: 12px;
-            background: #F5F0E8;
-            padding: 4px 12px;
-            border-radius: 30px;
-            color: #8B7A6B;
-            transform: rotate(-4deg);
-            top: -12px;
-            right: 20px;
-            pointer-events: none;
-        }
-
-        /* Hero Section */
-        .hero-card {
-            background: #FFFFFF;
-            border: 1px solid #E8E6E0;
-            border-radius: 28px;
-            padding: 40px 36px;
-            margin-bottom: 30px;
-            position: relative;
-        }
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #F5F5F5;
-            border: 1px solid #DDD;
-            padding: 5px 18px;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #444;
-            margin-bottom: 24px;
-            font-family: 'Indie Flower', cursive;
-            transform: rotate(-0.5deg);
-        }
-        .hero h1 {
-            font-size: clamp(44px, 6vw, 68px);
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            margin-bottom: 16px;
-            color: var(--ink-black);
-            font-family: 'Indie Flower', cursive;
-        }
-        .hero-highlight {
-            border-bottom: 3px dashed #AAA;
-            display: inline-block;
-            line-height: 0.92;
-        }
-        .hero-desc {
-            font-size: 18px;
-            font-family: 'Indie Flower', cursive;
-            color: var(--ink-gray);
-            line-height: 1.65;
-            margin: 20px 0 28px;
-        }
-        .btn-group { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
-        .btn-primary {
-            background: transparent;
-            border: 1.8px solid #AAA;
-            padding: 10px 32px;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 16px;
-            color: var(--ink-black);
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background-color: #FCFCFC;
-            font-family: 'Indie Flower', cursive;
-            transform: rotate(-0.2deg);
-        }
-        .btn-primary:hover { background: #F0F0F0; border-color: #777; transform: translateY(-2px) rotate(-0.5deg); }
-        .btn-outline {
-            background: transparent;
-            border: 1.5px dashed #BBB;
-            padding: 10px 32px;
-            border-radius: 60px;
-            font-weight: 500;
-            font-size: 16px;
-            color: var(--ink-dark);
-            transition: all 0.2s;
-            cursor: pointer;
-            font-family: 'Indie Flower', cursive;
-            transform: rotate(0.2deg);
-        }
-        .btn-outline:hover { border: 1.5px solid #888; background: rgba(0,0,0,0.02); transform: translateY(-1px) rotate(0deg); }
-
-        /* Profile Image */
-        .profile-wrapper {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .profile-image {
-            width: 100%;
-            max-width: 280px;
-            aspect-ratio: 1/1;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #CCC;
-            box-shadow: 0 12px 20px -12px rgba(0,0,0,0.08);
-            filter: grayscale(0.05) contrast(1);
-            transition: all 0.3s ease;
-            transform: rotate(-0.5deg);
-        }
-        .profile-image:hover { transform: scale(1.01) rotate(0.5deg); border-color: #999; }
-
-        /* Section Headers */
-        .section-header {
-            display: flex;
-            align-items: baseline;
-            gap: 12px;
-            margin-bottom: 22px;
-            border-left: 3px solid #C0B5A8;
-            padding-left: 16px;
-        }
-        .section-header h2 {
-            font-size: 26px;
-            font-weight: 600;
-            font-family: 'Indie Flower', cursive;
-            color: #2C2C2C;
-        }
-        .section-header .year-tag {
-            font-size: 13px;
-            color: #B0A090;
-            font-family: 'Indie Flower', cursive;
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-            margin: 20px 0 10px;
-        }
-        .stat-card {
-            background: #FEFCF8;
-            padding: 20px 12px;
-            text-align: center;
-            transition: all 0.2s;
-            border: 1px solid #E8E5DF;
-            border-radius: 20px;
-            transform: rotate(var(--rot, 0deg));
-        }
-        .stat-card:nth-child(1) { --rot: -0.3deg; }
-        .stat-card:nth-child(2) { --rot: 0.3deg; }
-        .stat-card:nth-child(3) { --rot: -0.2deg; }
-        .stat-card:nth-child(4) { --rot: 0.2deg; }
-        .stat-card:hover { background: #FAFAFA; border-color: #BBB; transform: translateY(-2px) rotate(0deg); }
-        .stat-number {
-            font-size: 42px;
-            font-weight: 700;
-            color: #222;
-            margin-bottom: 6px;
-            font-family: 'Indie Flower', cursive;
-        }
-        .stat-label { font-size: 14px; color: #555; font-family: 'Indie Flower', cursive; }
-
-        /* Skills Tags */
-        .skills-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 8px;
-        }
-        .skill-tag {
-            background: #F5F3EF;
-            padding: 6px 18px;
-            border-radius: 40px;
-            font-size: 15px;
-            font-weight: 500;
-            color: #4A4A4A;
-            border: 1px solid #E8E5DF;
-            font-family: 'Indie Flower', cursive;
-            transition: all 0.2s;
-        }
-        .skill-tag:hover {
-            background: #EDE8E0;
-            transform: translateY(-1px);
-        }
-
-        /* Timeline Items */
-        .timeline-item {
-            margin-bottom: 22px;
-            padding-bottom: 18px;
-            border-bottom: 1px solid #F0EFEA;
-        }
-        .timeline-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-        .timeline-year {
-            font-size: 12px;
-            font-weight: 600;
-            color: #B8A99A;
-            letter-spacing: 0.5px;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            font-family: 'Inter', sans-serif;
-        }
-        .timeline-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            color: #1A1A1A;
-            font-family: 'Indie Flower', cursive;
-        }
-        .timeline-sub {
-            font-size: 14px;
-            color: #8B8B8B;
-            margin-bottom: 6px;
-            font-family: 'Indie Flower', cursive;
-        }
-        .timeline-desc {
-            font-size: 14px;
-            color: #5A5A5A;
-            line-height: 1.55;
-            font-family: 'Indie Flower', cursive;
-        }
-
-        /* Quote Sticker */
-        .quote-sticker {
-            background: #FDFBF7;
-            border-left: 3px solid #D4C5B5;
-            padding: 14px 18px;
-            margin-top: 16px;
-            font-style: italic;
-            font-size: 14px;
-            color: #6B5E52;
-            font-family: 'Indie Flower', cursive;
-        }
-
-        /* Software Icons */
-        .software-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 12px;
-        }
-        .software-icon {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-        }
-        .software-icon span:first-child {
-            font-size: 20px;
-            font-weight: 600;
-            font-family: 'Inter', monospace;
-            background: #F0EDE8;
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            color: #5E5E5E;
-            border: 1px solid #E0DCD5;
-        }
-        .software-icon span:last-child {
-            font-size: 11px;
-            color: #9B8F82;
-            font-family: 'Indie Flower', cursive;
-        }
-
-        /* Contact Section */
-        .contact-section {
-            background: #FFFFFF;
-            border-radius: 32px;
-            padding: 36px 40px;
-            margin: 30px 0 50px;
-            border: 1.5px solid #E5E5E5;
-            transform: rotate(-0.2deg);
-        }
-        .contact-info h3 {
-            font-size: 30px;
-            font-weight: 600;
-            color: #111;
-            margin-bottom: 14px;
-            font-family: 'Indie Flower', cursive;
-        }
-        .contact-info p {
-            font-family: 'Indie Flower', cursive;
-            font-size: 16px;
-            color: #555;
-        }
-        .contact-detail {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px dashed #DDD;
-        }
-        .contact-detail:hover { transform: translateX(5px); }
-        .contact-detail i { width: 26px; color: #666; font-size: 16px; }
-        .contact-detail a {
-            text-decoration: none;
-            color: #444;
-            font-size: 16px;
-            font-family: 'Indie Flower', cursive;
-            transition: 0.2s;
-        }
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-        .social-link {
-            width: 44px;
-            height: 44px;
-            background: #F5F5F5;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            transition: 0.2s;
-            text-decoration: none;
-            color: #444;
-            border: 1px solid #DDD;
-            transform: rotate(var(--rot, 0deg));
-        }
-        .social-link:nth-child(1) { --rot: -3deg; }
-        .social-link:nth-child(2) { --rot: 2deg; }
-        .social-link:nth-child(3) { --rot: -1deg; }
-        .social-link:nth-child(4) { --rot: 3deg; }
-        .social-link:nth-child(5) { --rot: -2deg; }
-        .social-link:hover { background: #E8E8E8; color: #000; transform: translateY(-4px) rotate(0deg); border-color: #999; }
-
-        .contact-card {
-            background: #FEFEFE;
-            border-radius: 28px;
-            padding: 30px 28px;
-            text-align: center;
-            border: 1px solid #E0E0E0;
-            transform: rotate(0.3deg);
-        }
-        .contact-card i { font-size: 44px; color: #666; margin-bottom: 16px; }
-        .contact-card h4 { font-size: 22px; margin-bottom: 8px; font-family: 'Indie Flower', cursive; color: #111; }
-        .contact-card p { font-family: 'Indie Flower', cursive; font-size: 15px; color: #555; }
-        .designer-quote {
-            margin-top: 16px;
-            padding-top: 12px;
-            border-top: 1px solid #E8E8E8;
-            font-size: 13px;
-            color: #888;
-            font-family: 'Indie Flower', cursive;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 0 35px;
-            border-top: 1px solid #E5E5E5;
-            color: #888;
-            font-size: 14px;
-            font-family: 'Indie Flower', cursive;
-        }
-
-        .reveal { opacity: 0; transform: translateY(20px) rotate(-0.5deg); transition: opacity 0.6s ease, transform 0.6s ease; }
-        .reveal.revealed { opacity: 1; transform: translateY(0) rotate(0deg); }
-
-        @media (max-width: 1000px) {
-            .container { padding: 0 30px; }
-            .scrapbook-grid { grid-template-columns: 1fr; gap: 20px; }
-        }
-        @media (max-width: 860px) {
-            .hero-card { padding: 30px 24px; }
-            .btn-group { justify-content: center; }
-            .stats-grid { grid-template-columns: repeat(2,1fr); }
-            .contact-section { padding: 28px 24px; }
-        }
-        @media (max-width: 600px) {
-            .stats-grid { grid-template-columns: 1fr; }
-            .header { flex-direction: column; gap: 12px; top: 12px; }
-            .nav-links { gap: 28px; }
-            .scrap-card { padding: 20px; }
+        .font-mono-custom {
+            font-family: 'Architects Daughter', monospace;
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-<div class="container">
-    <div class="header">
-        <div class="logo"><i class="fas fa-pencil-alt"></i> Smriti Ale Magar</div>
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#work">Work</a>
-            <a href="#journey">Journey</a>
-            <a href="#contact">Connect</a>
+<div class="relative-z-container max-w-[1280px] mx-auto px-5 md:px-10">
+    <!-- Header scrapbook sticky - Architects Daughter style -->
+    <div class="flex flex-col md:flex-row justify-between items-center bg-white/96 backdrop-blur-sm py-3 px-6 md:px-8 my-6 rounded-[80px] border-sketch-dark shadow-drawn sticky top-5 z-[100] rotate-custom-1 hover:rotate-0 transition-all duration-200">
+        <div class="flex flex-row text-2xl md:text-3xl font-semibold font-['Architects_Daughter'] text-[#1A1A1A] border-b-2 border-dashed border-gray-400 pb-1">
+            <img class="h-10 w-auto" src="logo.png" alt="logo" onerror="this.style.display='none'"> mriti Ale Magar
+        </div>
+        <div class="flex gap-8 md:gap-11 mt-2 md:mt-0">
+            <a href="#" class="nav-link-item font-medium text-lg font-['Architects_Daughter'] text-[#2C2C2C] no-underline">Home</a>
+            <a href="#work" class="nav-link-item font-medium text-lg font-['Architects_Daughter'] text-[#2C2C2C] no-underline">Work</a>
+            <a href="#journey" class="nav-link-item font-medium text-lg font-['Architects_Daughter'] text-[#2C2C2C] no-underline">Journey</a>
+            <a href="#contact" class="nav-link-item font-medium text-lg font-['Architects_Daughter'] text-[#2C2C2C] no-underline">Connect</a>
         </div>
     </div>
 
-    <div class="scrapbook-grid">
+    <!-- Scrapbook 2-column grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-7 mb-14">
         <!-- LEFT COLUMN -->
-        <div class="left-column">
+        <div class="space-y-7">
             <!-- Hero Card -->
-            <div class="hero-card" style="position: relative;">
-                <div class="sticker">✨ freshly sketched</div>
-                <div class="hero-badge"><i class="fas fa-drafting-compass"></i> UI/UX Designer · Mentor · Sketch & build</div>
-                <h1>Crafting <span class="hero-highlight">simple, user-centered</span><br>digital experiences</h1>
-                <div class="hero-desc">
+            <div id="work" class="relative bg-white border border-[#E8E6E0] rounded-3xl p-6 md:p-9 shadow-drawn scrap-card-custom">
+                <div class="sticker-shape">✨ freshly sketched</div>
+                <div class="inline-flex items-center gap-2 bg-[#F5F5F5] border border-[#DDD] py-1.5 px-5 rounded-full text-sm font-medium text-gray-600 mb-6 font-['Architects_Daughter'] rotate-custom-1">
+                    <i class="fas fa-drafting-compass"></i> UI/UX Designer · Mentor · Sketch & build
+                </div>
+                <h1 class="text-xl md:text-3xl font-semibold mb-4 text-[#1A1A1A] font-['Architects_Daughter']">
+                    Crafting <span class="hero-highlight-underline">simple, user-centered</span><br>digital experiences
+                </h1>
+                <div class="text-lg font-['Architects_Daughter'] text-[#4A4A4A] leading-relaxed my-5">
                     I'm Smriti — a UI/UX designer who turns complex ideas into clear, functional designs that users can easily understand and interact with. 
-                    Currently working as <strong style="color: #444;">UI/UX & Graphic Designer Tutor at CODE IT</strong>, I guide upcoming designers and ensure user-centered, consistent design practices.
+                    Currently working as <strong class="text-[#444]">UI/UX & Graphic Designer Tutor at CODE IT</strong>, I guide upcoming designers and ensure user-centered, consistent design practices.
                 </div>
-                <div class="btn-group">
-                    <button class="btn-primary" onclick="alert('✏️ Let’s sketch your next big idea together!')"><i class="fas fa-feather-alt"></i> Start project</button>
-                    <button class="btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Let’s connect</button>
+                <div class="flex flex-wrap gap-5 mt-2">
+                    <button onclick="alert('✏️ Let’s sketch your next big idea together!')" class="bg-transparent border-[1.8px] border-[#AAA] py-2.5 px-8 rounded-full font-semibold text-base text-[#1A1A1A] transition-all hover:bg-[#F0F0F0] hover:border-[#777] hover:-translate-y-0.5 flex items-center gap-2 font-['Architects_Daughter'] rotate-custom-1">
+                        <i class="fas fa-feather-alt"></i> Start project
+                    </button>
+                    <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="bg-transparent border border-dashed border-[#BBB] py-2.5 px-8 rounded-full font-medium text-base text-[#2C2C2C] transition-all hover:border-[#888] hover:bg-black/5 hover:-translate-y-0.5 font-['Architects_Daughter'] rotate-custom-1">
+                        Let’s connect
+                    </button>
                 </div>
-                <div class="profile-wrapper">
-                    <img class="profile-image" src="smriti.png" alt="Smriti Ale Magar">
-                </div>
-            </div>
-
-            <!-- Stats Mini Grid -->
-            <div class="scrap-card">
-                <div class="section-header">
-                    <h2>Snapshot</h2>
-                    <span class="year-tag">✧ at a glance</span>
-                </div>
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-number">2+</div><div class="stat-label">Years experience</div></div>
-                    <div class="stat-card"><div class="stat-number">18+</div><div class="stat-label">Projects delivered</div></div>
-                    <div class="stat-card"><div class="stat-number">12+</div><div class="stat-label">Mentored designers</div></div>
-                    <div class="stat-card"><div class="stat-number">2025</div><div class="stat-label">CSIT Graduate</div></div>
+                <div class="flex justify-center mt-8">
+                    <!-- Profile image placeholder (using a stylish geometric placeholder with emoji/initials since actual image may not exist) -->
+                    <div class="profile-img-custom w-full max-w-[280px] aspect-square rounded-full object-cover border-2 border-gray-300 shadow-[0_12px_20px_-12px_rgba(0,0,0,0.08)] bg-[#F0EDE5] flex items-center justify-center text-7xl text-[#6C5E4E] font-['Architects_Daughter']">
+                        <span><img src="smriti.png" alt=""></span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Top Skills Section -->
-            <div class="scrap-card">
-                <div class="section-header">
-                    <h2>Top Skills</h2>
-                    <span class="year-tag">✦ creative toolbox</span>
+            <!-- Snapshot Stats -->
+            <div class="bg-white border border-[#E8E6E0] rounded-2xl p-6 md:p-7 shadow-drawn scrap-card-custom">
+                <div class="flex items-baseline gap-3 border-l-3 border-[#C0B5A8] pl-4 mb-5">
+                    <h2 class="text-2xl font-semibold font-['Architects_Daughter'] text-[#2C2C2C]">Snapshot</h2>
+                    <span class="text-xs text-[#B0A090] font-['Architects_Daughter']">✧ at a glance</span>
                 </div>
-                <div class="skills-grid">
-                    <span class="skill-tag"><i class="fab fa-adobe"></i> Adobe Photoshop</span>
-                    <span class="skill-tag"><i class="fas fa-camera"></i> Photography</span>
-                    <span class="skill-tag"><i class="fas fa-portrait"></i> Portrait Photography</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-[#FEFCF8] p-5 text-center border border-[#E8E5DF] rounded-2xl transition-all hover:bg-[#FAFAFA] hover:border-gray-400 hover:-translate-y-0.5 rotate-custom-1"><div class="text-4xl font-bold text-[#222] mb-1.5 font-['Architects_Daughter']">2+</div><div class="text-sm text-[#555] font-['Architects_Daughter']">Years experience</div></div>
+                    <div class="bg-[#FEFCF8] p-5 text-center border border-[#E8E5DF] rounded-2xl transition-all hover:bg-[#FAFAFA] hover:border-gray-400 hover:-translate-y-0.5 rotate-custom-2"><div class="text-4xl font-bold text-[#222] mb-1.5 font-['Architects_Daughter']">18+</div><div class="text-sm text-[#555] font-['Architects_Daughter']">Projects delivered</div></div>
+                    <div class="bg-[#FEFCF8] p-5 text-center border border-[#E8E5DF] rounded-2xl transition-all hover:bg-[#FAFAFA] hover:border-gray-400 hover:-translate-y-0.5 rotate-custom-3"><div class="text-4xl font-bold text-[#222] mb-1.5 font-['Architects_Daughter']">12+</div><div class="text-sm text-[#555] font-['Architects_Daughter']">Mentored designers</div></div>
+                    <div class="bg-[#FEFCF8] p-5 text-center border border-[#E8E5DF] rounded-2xl transition-all hover:bg-[#FAFAFA] hover:border-gray-400 hover:-translate-y-0.5 rotate-custom-4"><div class="text-4xl font-bold text-[#222] mb-1.5 font-['Architects_Daughter']">2025</div><div class="text-sm text-[#555] font-['Architects_Daughter']">CSIT Graduate</div></div>
+                </div>
+            </div>
+
+            <!-- Top Skills -->
+            <div class="bg-white border border-[#E8E6E0] rounded-2xl p-6 md:p-7 shadow-drawn scrap-card-custom">
+                <div class="flex items-baseline gap-3 border-l-3 border-[#C0B5A8] pl-4 mb-5">
+                    <h2 class="text-2xl font-semibold font-['Architects_Daughter']">Top Skills</h2>
+                    <span class="text-xs text-[#B0A090] font-['Architects_Daughter']">✦ creative toolbox</span>
+                </div>
+                <div class="flex flex-wrap gap-2.5">
+                    <span class="bg-[#F5F3EF] px-5 py-1.5 rounded-full text-[15px] font-medium text-[#4A4A4A] border border-[#E8E5DF] font-['Architects_Daughter'] transition-all skill-tag-hover"><i class="fab fa-adobe mr-1"></i> Adobe Photoshop</span>
+                    <span class="bg-[#F5F3EF] px-5 py-1.5 rounded-full text-[15px] font-medium text-[#4A4A4A] border border-[#E8E5DF] font-['Architects_Daughter'] transition-all skill-tag-hover"><i class="fas fa-camera mr-1"></i> Photography</span>
+                    <span class="bg-[#F5F3EF] px-5 py-1.5 rounded-full text-[15px] font-medium text-[#4A4A4A] border border-[#E8E5DF] font-['Architects_Daughter'] transition-all skill-tag-hover"><i class="fas fa-portrait mr-1"></i> Portrait Photography</span>
                 </div>
             </div>
 
             <!-- Core Expertise -->
-            <div class="scrap-card">
-                <div class="section-header">
-                    <h2>Core Expertise</h2>
-                    <span class="year-tag">✎ design toolkit</span>
+            <div class="bg-white border border-[#E8E6E0] rounded-2xl p-6 md:p-7 shadow-drawn scrap-card-custom">
+                <div class="flex items-baseline gap-3 border-l-3 border-[#C0B5A8] pl-4 mb-5">
+                    <h2 class="text-2xl font-semibold font-['Architects_Daughter']">Core Expertise</h2>
+                    <span class="text-xs text-[#B0A090] font-['Architects_Daughter']">✎ design toolkit</span>
                 </div>
-                <div class="skills-grid">
-                    <span class="skill-tag">UI/UX Design</span>
-                    <span class="skill-tag">Wireframing</span>
-                    <span class="skill-tag">Prototyping</span>
-                    <span class="skill-tag">User Research</span>
-                    <span class="skill-tag">Design Systems</span>
-                    <span class="skill-tag">UX Strategy</span>
-                    <span class="skill-tag">Mentorship</span>
-                    <span class="skill-tag">Responsive Design</span>
-                    <span class="skill-tag">Usability Testing</span>
-                    <span class="skill-tag">Visual Design</span>
-                    <span class="skill-tag">Leadership</span>
-                    <span class="skill-tag">Problem Solving</span>
+                <div class="flex flex-wrap gap-2.5">
+                    <span class="bg-[#F5F3EF] px-5 py-1.5 rounded-full text-[15px] font-medium text-[#4A4A4A] border border-[#E8E5DF] font-['Architects_Daughter'] transition-all skill-tag-hover">UI/UX Design</span>
+                    <span class="bg-[#F5F3EF] px-5 py-1.5 rounded-full text-[15px] font-medium text-[#4A4A4A] border border-[#E8E5DF] font-['Architects_Daughter'] transition-all skill-tag-hover">Wireframing</span>
+                    <span class="bg-[#F5F3EF] px-5 py-1.5 rounded-full text-[15px] font-medium text-[#4A4A4A] border border-[#E8E5DF] font-['Architects_Daughter'] transition-all skill-tag-hover">Prototyping</span>
+                    <span class="bg-[#F5F3EF] px-5 py-1.5 rounded-full text-[15px] font-medium text-[#4A4A4A] border border-[#E8E5DF] font-['Architects_Daughter'] transition-all skill-tag-hover">User Research</span>
+                    <span class="bg-[#F5F3EF] px-5 py-1.5 rounded-full text-[15px] font-medium text-[#4A4A4A] border border-[#E8E5DF] font-['Architects_Daughter'] transition-all skill-tag-hover">Design Systems</span>
+                    <span class="bg-[#F5F3EF] px-5 py-1.5 rounded-full text-[15px] font-medium text-[#4A4A4A] border border-[#E8E5DF] font-['Architects_Daughter'] transition-all skill-tag-hover">UX Strategy</span>
+                    <span class="bg-[#F5F3EF] px-5 py-1.5 rounded-full text-[15px] font-medium text-[#4A4A4A] border border-[#E8E5DF] font-['Architects_Daughter'] transition-all skill-tag-hover">Mentorship</span>
+                    <span class="bg-[#F5F3EF] px-5 py-1.5 rounded-full text-[15px] font-medium text-[#4A4A4A] border border-[#E8E5DF] font-['Architects_Daughter'] transition-all skill-tag-hover">Responsive Design</span>
+                    <span class="bg-[#F5F3EF] px-5 py-1.5 rounded-full text-[15px] font-medium text-[#4A4A4A] border border-[#E8E5DF] font-['Architects_Daughter'] transition-all skill-tag-hover">Usability Testing</span>
+                    <span class="bg-[#F5F3EF] px-5 py-1.5 rounded-full text-[15px] font-medium text-[#4A4A4A] border border-[#E8E5DF] font-['Architects_Daughter'] transition-all skill-tag-hover">Visual Design</span>
+                    <span class="bg-[#F5F3EF] px-5 py-1.5 rounded-full text-[15px] font-medium text-[#4A4A4A] border border-[#E8E5DF] font-['Architects_Daughter'] transition-all skill-tag-hover">Leadership</span>
+                    <span class="bg-[#F5F3EF] px-5 py-1.5 rounded-full text-[15px] font-medium text-[#4A4A4A] border border-[#E8E5DF] font-['Architects_Daughter'] transition-all skill-tag-hover">Problem Solving</span>
                 </div>
             </div>
 
             <!-- Tools & Software -->
-            <div class="scrap-card">
-                <div class="section-header">
-                    <h2>Tools & Software</h2>
-                    <span class="year-tag">daily drivers</span>
+            <div class="bg-white border border-[#E8E6E0] rounded-2xl p-6 md:p-7 shadow-drawn scrap-card-custom">
+                <div class="flex items-baseline gap-3 border-l-3 border-[#C0B5A8] pl-4 mb-5">
+                    <h2 class="text-2xl font-semibold font-['Architects_Daughter']">Tools & Software</h2>
+                    <span class="text-xs text-[#B0A090] font-['Architects_Daughter']">daily drivers</span>
                 </div>
-                <div class="software-row">
-                    <div class="software-icon"><span>Figma</span><span>Figma</span></div>
-                    <div class="software-icon"><span>XD</span><span>Adobe XD</span></div>
-                    <div class="software-icon"><span>Ps</span><span>Photoshop</span></div>
-                    <div class="software-icon"><span>Ai</span><span>Illustrator</span></div>
-                    <div class="software-icon"><span>Lr</span><span>Lightroom</span></div>
-                    <div class="software-icon"><span>Miro</span><span>Miro</span></div>
+                <div class="flex flex-wrap gap-5 mt-2">
+                    <div class="flex flex-col items-center gap-1"><span class="text-xl font-semibold font-['Architects_Daughter'] bg-[#F0EDE8] w-12 h-12 flex items-center justify-center rounded-full text-[#5E5E5E] border border-[#E0DCD5]">F</span><span class="text-[11px] text-[#9B8F82] font-['Architects_Daughter']">Figma</span></div>
+                    <div class="flex flex-col items-center gap-1"><span class="text-xl font-semibold font-['Architects_Daughter'] bg-[#F0EDE8] w-12 h-12 flex items-center justify-center rounded-full text-[#5E5E5E] border border-[#E0DCD5]">XD</span><span class="text-[11px] text-[#9B8F82] font-['Architects_Daughter']">Adobe XD</span></div>
+                    <div class="flex flex-col items-center gap-1"><span class="text-xl font-semibold font-['Architects_Daughter'] bg-[#F0EDE8] w-12 h-12 flex items-center justify-center rounded-full text-[#5E5E5E] border border-[#E0DCD5]">Ps</span><span class="text-[11px] text-[#9B8F82] font-['Architects_Daughter']">Photoshop</span></div>
+                    <div class="flex flex-col items-center gap-1"><span class="text-xl font-semibold font-['Architects_Daughter'] bg-[#F0EDE8] w-12 h-12 flex items-center justify-center rounded-full text-[#5E5E5E] border border-[#E0DCD5]">Ai</span><span class="text-[11px] text-[#9B8F82] font-['Architects_Daughter']">Illustrator</span></div>
+                    <div class="flex flex-col items-center gap-1"><span class="text-xl font-semibold font-['Architects_Daughter'] bg-[#F0EDE8] w-12 h-12 flex items-center justify-center rounded-full text-[#5E5E5E] border border-[#E0DCD5]">Lr</span><span class="text-[11px] text-[#9B8F82] font-['Architects_Daughter']">Lightroom</span></div>
                 </div>
             </div>
         </div>
 
         <!-- RIGHT COLUMN -->
-        <div class="right-column">
-            <!-- About Me / Summary -->
-            <div class="scrap-card">
-                <div class="section-header">
-                    <h2>About Me</h2>
-                    <span class="year-tag">✧ the story</span>
+        <div class="space-y-7" id="journey">
+            <!-- About Me -->
+            <div class="bg-white border border-[#E8E6E0] rounded-2xl p-6 md:p-7 shadow-drawn scrap-card-custom">
+                <div class="flex items-baseline gap-3 border-l-3 border-[#C0B5A8] pl-4 mb-5">
+                    <h2 class="text-2xl font-semibold font-['Architects_Daughter']">About Me</h2>
+                    <span class="text-xs text-[#B0A090] font-['Architects_Daughter']">✧ the story</span>
                 </div>
-                <div class="timeline-desc" style="font-size: 15px;">
+                <div class="text-[15px] text-[#5A5A5A] leading-relaxed font-['Architects_Daughter'] space-y-3">
                     <p>I'm a UI/UX designer who focuses on creating simple, user-centered digital experiences. I enjoy turning complex ideas into clear, functional designs that users can easily understand and interact with. My journey started as a UI/UX intern at CODE IT, where I built a strong foundation in design principles, tools, and real-world project work.</p>
-                    <br>
                     <p>Currently, I work as an Intern Supervisor and Tutor, where I guide and support upcoming designers. I review their work, help them improve their design thinking, and ensure they follow user-centered and consistent design practices. I believe good design is not just about how things look, but how they work.</p>
                 </div>
-                <div class="quote-sticker">
-                    <i class="fas fa-paperclip" style="margin-right: 6px;"></i> "Good design balances emotion and logic — it's where clarity meets delight."
-                </div>
+                <div class="bg-[#FDFBF7] border-l-3 border-[#D4C5B5] p-4 mt-5 italic text-sm text-[#6B5E52] font-['Architects_Daughter']"><i class="fas fa-paperclip mr-1.5"></i> "Good design balances emotion and logic — it's where clarity meets delight."</div>
             </div>
 
-            <!-- Professional Experience -->
-            <div class="scrap-card">
-                <div class="section-header">
-                    <h2>Experience</h2>
-                    <span class="year-tag">✦ professional journey</span>
+            <!-- Experience -->
+            <div class="bg-white border border-[#E8E6E0] rounded-2xl p-6 md:p-7 shadow-drawn scrap-card-custom">
+                <div class="flex items-baseline gap-3 border-l-3 border-[#C0B5A8] pl-4 mb-5">
+                    <h2 class="text-2xl font-semibold font-['Architects_Daughter']">Experience</h2>
+                    <span class="text-xs text-[#B0A090] font-['Architects_Daughter']">✦ professional journey</span>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">April 2026 — Present</div>
-                    <div class="timeline-title">UI/UX & Graphic Designer Tutor</div>
-                    <div class="timeline-sub">CODE IT · Dharan, Nepal</div>
-                    <div class="timeline-desc">Currently working and sharing my experience with my students.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">January 2026 — Present</div>
-                    <div class="timeline-title">Intern Supervisor</div>
-                    <div class="timeline-sub">CODE IT · Dharan, Nepal</div>
-                    <div class="timeline-desc">Guiding and mentoring upcoming designers, reviewing UX deliverables, leading design critiques.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">November 2025 — Present</div>
-                    <div class="timeline-title">UI/UX & Graphics Designer</div>
-                    <div class="timeline-sub">CODE IT · Dharan, Nepal</div>
-                    <div class="timeline-desc">End-to-end product design, wireframing, high-fidelity prototypes, design systems.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">March 2025 — May 2025</div>
-                    <div class="timeline-title">UI/UX Designer</div>
-                    <div class="timeline-sub">CODE IT · Dharan, Nepal</div>
-                    <div class="timeline-desc">Wireframing, user flows, prototyping, and contributing to real-world client projects.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">February 2024 — March 2025</div>
-                    <div class="timeline-title">General Member</div>
-                    <div class="timeline-sub">CSIT Association of Nepal - Purwanchal</div>
-                    <div class="timeline-desc">Active involvement in tech events, workshops, and fostering collaboration among CSIT students.</div>
+                <div class="space-y-5">
+                    <div class="border-b border-[#F0EFEA] pb-4 last:border-0"><div class="text-xs font-semibold text-[#B8A99A] uppercase tracking-wide font-['Architects_Daughter']">April 2026 — Present</div><div class="text-lg font-semibold text-[#1A1A1A] font-['Architects_Daughter']">UI/UX & Graphic Designer Tutor</div><div class="text-sm text-[#8B8B8B] font-['Architects_Daughter']">CODE IT · Dharan, Nepal</div><div class="text-sm text-[#5A5A5A] leading-relaxed font-['Architects_Daughter']">Currently working and sharing my experience with my students.</div></div>
+                    <div class="border-b border-[#F0EFEA] pb-4 last:border-0"><div class="text-xs font-semibold text-[#B8A99A] uppercase tracking-wide font-['Architects_Daughter']">January 2026 — Present</div><div class="text-lg font-semibold text-[#1A1A1A] font-['Architects_Daughter']">Intern Supervisor</div><div class="text-sm text-[#8B8B8B] font-['Architects_Daughter']">CODE IT · Dharan, Nepal</div><div class="text-sm text-[#5A5A5A] leading-relaxed font-['Architects_Daughter']">Guiding and mentoring upcoming designers, reviewing UX deliverables, leading design critiques.</div></div>
+                    <div class="border-b border-[#F0EFEA] pb-4 last:border-0"><div class="text-xs font-semibold text-[#B8A99A] uppercase tracking-wide font-['Architects_Daughter']">November 2025 — Present</div><div class="text-lg font-semibold text-[#1A1A1A] font-['Architects_Daughter']">UI/UX & Graphics Designer</div><div class="text-sm text-[#8B8B8B] font-['Architects_Daughter']">CODE IT · Dharan, Nepal</div><div class="text-sm text-[#5A5A5A] leading-relaxed font-['Architects_Daughter']">End-to-end product design, wireframing, high-fidelity prototypes, design systems.</div></div>
+                    <div class="border-b border-[#F0EFEA] pb-4 last:border-0"><div class="text-xs font-semibold text-[#B8A99A] uppercase tracking-wide font-['Architects_Daughter']">March 2025 — May 2025</div><div class="text-lg font-semibold text-[#1A1A1A] font-['Architects_Daughter']">UI/UX Designer</div><div class="text-sm text-[#8B8B8B] font-['Architects_Daughter']">CODE IT · Dharan, Nepal</div><div class="text-sm text-[#5A5A5A] leading-relaxed font-['Architects_Daughter']">Wireframing, user flows, prototyping, and contributing to real-world client projects.</div></div>
+                    <div><div class="text-xs font-semibold text-[#B8A99A] uppercase tracking-wide font-['Architects_Daughter']">February 2024 — March 2025</div><div class="text-lg font-semibold text-[#1A1A1A] font-['Architects_Daughter']">General Member</div><div class="text-sm text-[#8B8B8B] font-['Architects_Daughter']">CSIT Association of Nepal - Purwanchal</div><div class="text-sm text-[#5A5A5A] leading-relaxed font-['Architects_Daughter']">Active involvement in tech events, workshops, and fostering collaboration among CSIT students.</div></div>
                 </div>
             </div>
 
             <!-- Education -->
-            <div class="scrap-card">
-                <div class="section-header">
-                    <h2>Education</h2>
-                    <span class="year-tag">✎ learning path</span>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2020 — 2025</div>
-                    <div class="timeline-title">BSc.CSIT (Bachelor's)</div>
-                    <div class="timeline-sub">Institute of Science and Technology (IOST), Tribhuvan University</div>
-                    <div class="timeline-desc">Specialization in Human-Computer Interaction, Design Thinking, and Web Technologies.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2020</div>
-                    <div class="timeline-title">+2, Computer Science</div>
-                    <div class="timeline-sub">Gokundeshwor Secondary School</div>
-                    <div class="timeline-desc">Higher secondary education with focus on computer science and foundational design thinking.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-year">2018</div>
-                    <div class="timeline-title">School Leaving Certificate (SLC)</div>
-                    <div class="timeline-sub">Motherland Secondary Boarding School</div>
-                    <div class="timeline-desc">Foundation in academics and early interest in visual arts and design.</div>
+            <div class="bg-white border border-[#E8E6E0] rounded-2xl p-6 md:p-7 shadow-drawn scrap-card-custom">
+                <div class="flex items-baseline gap-3 border-l-3 border-[#C0B5A8] pl-4 mb-5"><h2 class="text-2xl font-semibold font-['Architects_Daughter']">Education</h2><span class="text-xs text-[#B0A090] font-['Architects_Daughter']">✎ learning path</span></div>
+                <div class="space-y-5">
+                    <div><div class="text-xs font-semibold text-[#B8A99A] uppercase font-['Architects_Daughter']">2020 — 2025</div><div class="text-lg font-semibold font-['Architects_Daughter']">BSc.CSIT (Bachelor's)</div><div class="text-sm text-[#8B8B8B] font-['Architects_Daughter']">Institute of Science and Technology (IOST), Tribhuvan University</div><div class="text-sm text-[#5A5A5A] font-['Architects_Daughter']">Specialization in Human-Computer Interaction, Design Thinking, and Web Technologies.</div></div>
+                    <div><div class="text-xs font-semibold text-[#B8A99A] uppercase font-['Architects_Daughter']">2020</div><div class="text-lg font-semibold font-['Architects_Daughter']">+2, Computer Science</div><div class="text-sm text-[#8B8B8B] font-['Architects_Daughter']">Gokundeshwor Secondary School</div><div class="text-sm text-[#5A5A5A] font-['Architects_Daughter']">Higher secondary education with focus on computer science and foundational design thinking.</div></div>
+                    <div><div class="text-xs font-semibold text-[#B8A99A] uppercase font-['Architects_Daughter']">2018</div><div class="text-lg font-semibold font-['Architects_Daughter']">School Leaving Certificate (SLC)</div><div class="text-sm text-[#8B8B8B] font-['Architects_Daughter']">Motherland Secondary Boarding School</div><div class="text-sm text-[#5A5A5A] font-['Architects_Daughter']">Foundation in academics and early interest in visual arts and design.</div></div>
                 </div>
             </div>
 
-            <!-- Featured Work Preview -->
-            <div class="scrap-card">
-                <div class="section-header">
-                    <h2>Featured Work</h2>
-                    <span class="year-tag">✦ projects</span>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-title">📱 Fintech Flow</div>
-                    <div class="timeline-desc">Minimalist banking app with biometric onboarding & seamless UX — increased retention by 34%.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-title">🎓 Code It Mentorship Hub</div>
-                    <div class="timeline-desc">Design learning platform for 50+ students — interactive modules & mentor dashboard.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-title">📸 Portrait Stories</div>
-                    <div class="timeline-desc">Creative portrait photography series blending mood, light, and storytelling.</div>
+            <!-- Featured Work -->
+            <div class="bg-white border border-[#E8E6E0] rounded-2xl p-6 md:p-7 shadow-drawn scrap-card-custom">
+                <div class="flex items-baseline gap-3 border-l-3 border-[#C0B5A8] pl-4 mb-5"><h2 class="text-2xl font-semibold font-['Architects_Daughter']">Featured Work</h2><span class="text-xs text-[#B0A090] font-['Architects_Daughter']">✦ projects</span></div>
+                <div class="space-y-4">
+                    <div><div class="text-lg font-semibold font-['Architects_Daughter']">📱 Fintech Flow</div><div class="text-sm text-[#5A5A5A] font-['Architects_Daughter']">Minimalist banking app with biometric onboarding & seamless UX — increased retention by 34%.</div></div>
+                    <div><div class="text-lg font-semibold font-['Architects_Daughter']">🎓 Code It Mentorship Hub</div><div class="text-sm text-[#5A5A5A] font-['Architects_Daughter']">Design learning platform for 50+ students — interactive modules & mentor dashboard.</div></div>
+                    <div><div class="text-lg font-semibold font-['Architects_Daughter']">📸 Portrait Stories</div><div class="text-sm text-[#5A5A5A] font-['Architects_Daughter']">Creative portrait photography series blending mood, light, and storytelling.</div></div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Contact Section -->
-    <div id="contact" class="contact-section">
-        <div class="contact-info">
-            <h3>Let's create together ✦</h3>
-            <p>Open for freelance projects, mentorship, UX collaborations, or just a creative chat. I'll respond within 24 hours.</p>
-            <div class="contact-detail"><i class="fas fa-envelope"></i><a href="mailto:magarsmriti729@gmail.com">magarsmriti729@gmail.com</a></div>
-            <div class="social-links">
-                <a class="social-link" href="https://www.facebook.com/smriti.ale.magar.446626" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                <a class="social-link" href="https://www.instagram.com/_smriti.magar_/" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a class="social-link" href="https://www.linkedin.com/in/smritialemagar/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                <a class="social-link" href="https://www.behance.net/smritimagar3" target="_blank"><i class="fab fa-behance"></i></a>
-                <a class="social-link" href="https://www.pinterest.com/just_sme/" target="_blank"><i class="fab fa-pinterest-p"></i></a>
+    <div id="contact" class="bg-white border border-[#E5E5E5] rounded-3xl p-8 md:p-10 my-10 shadow-drawn rotate-custom-1">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div>
+                <h3 class="text-3xl md:text-4xl font-semibold font-['Architects_Daughter'] text-[#111] mb-3">Let's create together <span class="text-yellow-500">✦</span></h3>
+                <p class="text-base font-['Architects_Daughter'] text-[#555] mb-5">Open for freelance projects, mentorship, UX collaborations, or just a creative chat. I'll respond within 24 hours.</p>
+                <div class="flex items-center gap-3 py-3 border-b border-dashed border-[#DDD]"><i class="fas fa-envelope w-6 text-gray-500"></i><a href="mailto:magarsmriti729@gmail.com" class="text-[#444] text-base font-['Architects_Daughter'] hover:underline">magarsmriti729@gmail.com</a></div>
+                <div class="flex flex-wrap gap-4 mt-8">
+                    <a href="https://www.facebook.com/smriti.ale.magar.446626" target="_blank" class="w-11 h-11 bg-[#F5F5F5] rounded-full flex items-center justify-center text-[#444] border border-[#DDD] transition-all hover:bg-[#E8E8E8] hover:-translate-y-1 hover:border-gray-400 rotate-custom-1"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/_smriti.magar_/" target="_blank" class="w-11 h-11 bg-[#F5F5F5] rounded-full flex items-center justify-center text-[#444] border border-[#DDD] transition-all hover:bg-[#E8E8E8] hover:-translate-y-1 hover:border-gray-400 rotate-custom-2"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/smritialemagar/" target="_blank" class="w-11 h-11 bg-[#F5F5F5] rounded-full flex items-center justify-center text-[#444] border border-[#DDD] transition-all hover:bg-[#E8E8E8] hover:-translate-y-1 hover:border-gray-400 rotate-custom-3"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.behance.net/smritimagar3" target="_blank" class="w-11 h-11 bg-[#F5F5F5] rounded-full flex items-center justify-center text-[#444] border border-[#DDD] transition-all hover:bg-[#E8E8E8] hover:-translate-y-1 hover:border-gray-400 rotate-custom-4"><i class="fab fa-behance"></i></a>
+                    <a href="https://www.pinterest.com/just_sme/" target="_blank" class="w-11 h-11 bg-[#F5F5F5] rounded-full flex items-center justify-center text-[#444] border border-[#DDD] transition-all hover:bg-[#E8E8E8] hover:-translate-y-1 hover:border-gray-400 rotate-custom-1"><i class="fab fa-pinterest-p"></i></a>
+                </div>
             </div>
-        </div>
-        <div class="contact-card">
-            <i class="fas fa-pencil-ruler"></i>
-            <h4>Design with heart</h4>
-            <p>“Great design balances emotion and logic — it's where clarity meets delight.”</p>
-            <div class="designer-quote">Let's craft stories that resonate. ✏️</div>
-            <button class="btn-primary" style="width:100%; justify-content:center; margin-top: 20px;" onclick="alert('✉️ Thanks for reaching out! Your message feels like a fresh sketch.')"><i class="fas fa-heart"></i> Send message</button>
+            <div class="bg-[#FEFEFE] rounded-3xl p-7 text-center border border-[#E0E0E0] shadow-sm rotate-custom-1">
+                <i class="fas fa-pencil-ruler text-4xl text-gray-500 mb-4"></i>
+                <h4 class="text-2xl font-semibold font-['Architects_Daughter'] text-[#111] mb-2">Design with heart</h4>
+                <p class="text-[15px] font-['Architects_Daughter'] text-[#555]">“Great design balances emotion and logic — it's where clarity meets delight.”</p>
+                <div class="mt-4 pt-3 border-t border-[#E8E8E8] text-xs text-gray-500 font-['Architects_Daughter']">Let's craft stories that resonate. ✏️</div>
+                <button onclick="alert('✉️ Thanks for reaching out! Your message feels like a fresh sketch.')" class="mt-5 w-full bg-transparent border-[1.8px] border-[#AAA] py-2.5 rounded-full font-semibold text-base text-[#1A1A1A] transition-all hover:bg-[#F0F0F0] hover:border-[#777] flex items-center justify-center gap-2 font-['Architects_Daughter']"><i class="fas fa-heart text-red-500"></i> Send message</button>
+            </div>
         </div>
     </div>
 
-    <footer>
-        <p>© 2026 Smriti Ale Magar · hand-drawn scrapbook portfolio · indie flower on paper</p>
+    <footer class="text-center py-10 border-t border-[#E5E5E5] text-gray-500 text-sm font-['Architects_Daughter']">
+        <p>© 2026 Smriti Ale Magar · hand-drawn scrapbook portfolio · Architects Daughter on paper</p>
     </footer>
 </div>
 
 <script>
-    document.querySelectorAll('.nav-links a, .btn-outline, a[href="#work"], a[href="#journey"]').forEach(anchor => {
+    // smooth scroll & reveal animation
+    document.querySelectorAll('.nav-link-item, a[href="#work"], a[href="#journey"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             let targetId = this.getAttribute('href');
             if(targetId && targetId.startsWith('#')) {
@@ -782,17 +334,17 @@
             }
         });
     });
-
-    const revealItems = document.querySelectorAll('.scrap-card, .hero-card, .contact-section, .stat-card, .timeline-item, .skill-tag');
+    const revealItems = document.querySelectorAll('.scrap-card-custom, .hero-card, .contact-section, .stat-card, .timeline-item, .skill-tag');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if(entry.isIntersecting) entry.target.classList.add('revealed');
         });
     }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
-    revealItems.forEach(el => { el.classList.add('reveal'); observer.observe(el); });
+    revealItems.forEach(el => { el.classList.add('reveal-custom'); observer.observe(el); });
     setTimeout(() => {
-        document.querySelectorAll('.hero-card, .scrap-card').forEach(el => el.classList.add('revealed'));
+        document.querySelectorAll('.scrap-card-custom').forEach(el => el.classList.add('revealed'));
     }, 100);
+    document.querySelectorAll('.scrap-card-custom').forEach(el => el.classList.add('transition-all'));
 </script>
 </body>
 </html>
